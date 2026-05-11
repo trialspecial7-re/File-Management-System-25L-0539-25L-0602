@@ -32,31 +32,34 @@ public:
 };
 
 //  AUDIO FILE
+
+
+
+
+// AUDIO FILE
 class AudioFile : public Node {
 public:
-	
-	AudioFile(string n, Node* p = nullptr) : Node(n + ".mpg", p)
+	// Change .mpg to .wav here
+	AudioFile(string n, Node* p = nullptr) : Node(n + ".wav", p)
 	{
 		cout << "Recording audio for 5 seconds..." << endl;
-		string recordCmd = "ffmpeg -f dshow -i audio=\"Microphone\" -t 5 \""
-			+ name + "\" -loglevel quiet";
+
+		// Ensure this command uses the correct mic name and saves as .wav
+		string recordCmd = "ffmpeg.exe -f dshow -i audio=\"Internal Microphone (Conexant SmartAudio HD)\" -t 5 -acodec pcm_s16le -ar 44100 \"" + name + "\" -loglevel quiet";
+
 		int result = system(recordCmd.c_str());
 		if (result == 0)
 			cout << "Recording complete! File saved as: " << name << endl;
 		else
-			cout << "Warning: ffmpeg not found. Audio node created without recording." << endl;
+			cout << "Warning: ffmpeg.exe failed. Check your mic name or path." << endl;
 	}
 
-	string getType() override 
-	{ 
+	string getType() override {
 		return "Audio File";
 	}
+
+	// Just the declaration here
 	void open() override;
-	/*{
-	cout << "Playing audio: " << name << "..." << endl;
-	string cmd = "start " + name;
-	system(cmd.c_str());
-}*/
 };
 
 // PRIVATE FILE 

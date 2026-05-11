@@ -134,7 +134,6 @@ void PrivateFile::open()
 // AUDIO FILE
 void AudioFile::open()
 {
-	// Check that the physical file actually exists before trying to play
 	ifstream checkFile(name);
 	if (!checkFile)
 	{
@@ -144,8 +143,9 @@ void AudioFile::open()
 		cin >> choice;
 		if (choice == 'y' || choice == 'Y')
 		{
-			string recordCmd = "ffmpeg -f dshow -i audio=\"Microphone\" -t 5 \""
-				+ name + "\" -loglevel quiet";
+			// UPDATE THIS LINE to match your specific microphone name and parameters
+			string recordCmd = "ffmpeg.exe -f dshow -i audio=\"Internal Microphone (Conexant SmartAudio HD)\" -t 5 -acodec pcm_s16le -ar 44100 \"" + name + "\" -loglevel quiet";
+
 			cout << "Recording 5 seconds of audio..." << endl;
 			system(recordCmd.c_str());
 			cout << "Recording complete." << endl;
@@ -154,12 +154,10 @@ void AudioFile::open()
 	}
 	checkFile.close();
 
+	// The playing logic stays the same!
 	cout << "Playing: " << name << endl;
-	cout << "Opening system default media player..." << endl;
 	string playCmd = "start \"\" \"" + name + "\"";
-	int result = system(playCmd.c_str());
-	if (result != 0)
-		cout << "Error: Could not launch media player." << endl;
+	system(playCmd.c_str());
 }
 
 // NOTE: ZipFile::open() is defined inline in Files.h (single-line error message)
