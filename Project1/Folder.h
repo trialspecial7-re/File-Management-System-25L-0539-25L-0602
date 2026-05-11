@@ -1,6 +1,4 @@
 #pragma once
-#ifndef FOLDER_H
-//#define FOLDER_H
 
 #include "Node.h"
 #include <iostream>
@@ -95,13 +93,13 @@ public:
 		}
 	}
 
-	Node* getChild(string n) const//Finds node my name
+	Node* getChild(string n) const//Finds node by name
 	{
 		for (int i = 0; i < count; i++)
 		{
 			if (children[i]->getName() == n)
 			{
-				return children[i];
+				return children[i]; //returns the address of that node in memory
 			}
 		}
 		return nullptr;
@@ -139,6 +137,4 @@ public:
 		return nullptr;
 	}
 };
-
-#endif
 

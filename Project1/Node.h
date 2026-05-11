@@ -35,7 +35,7 @@ public:
 		parent = p;
 	}
 
-	string getFullPath() const //Path generation
+	string getFullPath() const //Path generation on virtual system
 	{
 		string path = name;
 		Node* current = parent;
@@ -46,15 +46,14 @@ public:
 		}
 		return path;
 	}
-	//CHANGE 1
-	string getDiskPath() const
+
+	string getDiskPath() const  //Here we get path for the actual physical storage on disk
 	{
 		string path = name;
 		Node* current = parent;
 
 		while (current != nullptr)
 		{
-			// Skip virtual root name
 			if (current->getParent() == nullptr)
 				break;
 

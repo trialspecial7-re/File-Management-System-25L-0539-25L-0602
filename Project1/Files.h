@@ -1,6 +1,4 @@
 ﻿#pragma once
-#ifndef FILES_H
-#define FILES_H
 
 #include "Node.h"
 #include <iostream>
@@ -25,15 +23,8 @@ public:
 		return "Text File"; 
 	}
 	void open() override;
-	/*{
-		cout << "Text File: " << name << endl;
-		cout << "Commands: add, edit, view, exit" << endl;
-	}*/
+	
 };
-
-//  AUDIO FILE
-
-
 
 
 // AUDIO FILE
@@ -45,8 +36,7 @@ public:
 		cout << "Recording audio for 5 seconds..." << endl;
 
 		// Ensure this command uses the correct mic name and saves as .wav
-		///string recordCmd = "ffmpeg.exe -f dshow -i audio=\"Internal Microphone (Conexant SmartAudio HD)\" -t 5 -acodec pcm_s16le -ar 44100 \"" + name + "\" -loglevel quiet";
-		string recordCmd =	"ffmpeg.exe -f dshow -i audio=\"Internal Microphone (Conexant SmartAudio HD)\" "	"-t 5 -acodec pcm_s16le -ar 44100 \"" +getDiskPath() +"\" -loglevel quiet";
+		string recordCmd =	"ffmpeg.exe -f dshow -i audio=\"Internal Microphone (Conexant SmartAudio HD)\" " "-t 5 -acodec pcm_s16le -ar 44100 \"" +getDiskPath() +"\" -loglevel quiet";
 		int result = system(recordCmd.c_str());
 		if (result == 0)
 			cout << "Recording complete! File saved as: " << name << endl;
@@ -58,9 +48,9 @@ public:
 		return "Audio File";
 	}
 
-	// Just the declaration here
 	void open() override;
 };
+
 
 // PRIVATE FILE 
 class PrivateFile : public Node {
@@ -92,16 +82,7 @@ public:
 	}
 
 	void open() override;
-	/*{
-		if (validateKey())
-		{
-			cout << "Access granted: " << name << endl;
-		}
-		else
-		{
-			cout << "Access denied: Invalid passkey!" << endl;
-		}
-	}*/
+	
 	string getPasskey() const 
 	{
 		return passkey; 
@@ -126,13 +107,9 @@ public:
 	{
 		return zippedNodeName;
 	}
-
 	
 	void open() override
 	{
 		cout << "Error: Zipped files cannot be opened. Unzip first!" << endl;
 	}
 };
-
-#endif
-
