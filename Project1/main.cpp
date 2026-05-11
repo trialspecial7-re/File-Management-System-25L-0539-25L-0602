@@ -17,20 +17,20 @@ int main()
 	string command;
 	string argument;
 	string argument2;   //second argument needed for rename
-	int typeChoice;
+	string typeChoice;
 
 	cout << "---VIRTUAL FILE SYSTEM SHELL---" << endl;
 	cout << "Commands:" << endl;
-	cout << "  1  ls " << endl;
-	cout << "  2  cd <name>  " << endl;
-	cout << "  3  mkdir <name>  " << endl;
-	cout << "  4  touch <name> <type> " << endl;
-	cout << "       Types: 1=Text  2=Audio  3=Private  4=Zip" << endl;
-	cout << "  5  rm <name> " << endl;
-	cout << "  6  open <name> " << endl;
-	cout << "  7  search <name> " << endl;
-	cout << "  8  rename <old> <new> " << endl;  
-	cout << "  9  exit" << endl;
+	cout << "  ls " << endl;
+	cout << "  cd <name>  " << endl;
+	cout << "  mkdir <name>  " << endl;
+	cout << "  touch <name> <type> " << endl;
+	cout << "     Types: 1=Text  2=Audio  3=Private  4=Zip" << endl;
+	cout << "  rm <name> " << endl;
+	cout << "  open <name> " << endl;
+	cout << "  search <name> " << endl;
+	cout << "  rename <old> <new> " << endl;  
+	cout << "  exit" << endl;
 	cout << "-------------------------------------------------------------------------------------------" << endl;
 
 	while (true)
@@ -40,32 +40,32 @@ int main()
 		if (!(cin >> command))
 			break;
 
-		if (command == "9")
+		if (command == "exit")
 		{
 			cout << "Exiting system..." << endl;
 			break;
 		}
-		else if (command == "1")
+		else if (command == "ls")
 		{
 			cm.ls();
 		}
-		else if (command == "2")
+		else if (command == "cd")
 		{
 			if (cin >> argument)
 				cm.cd(argument);
 		}
-		else if (command == "3")
+		else if (command == "mkdir")
 		{
 			if (cin >> argument)
 				cm.mkdir(argument);
 		}
-		else if (command == "4")
+		else if (command == "touch")
 		{
 			if (cin >> argument)
 			{
 				if (cin >> typeChoice)
 				{
-					if (typeChoice >= 1 && typeChoice <= 4)
+					if (typeChoice != "text" || typeChoice != "audio" || typeChoice != "private" || typeChoice != "zip")
 						cm.touch(argument, typeChoice);
 					else
 						cout << "Error: Type must be 1-4." << endl;
@@ -77,22 +77,22 @@ int main()
 				}
 			}
 		}
-		else if (command == "5")
+		else if (command == "rm")
 		{
 			if (cin >> argument)
 				cm.rm(argument);
 		}
-		else if (command == "6")
+		else if (command == "open")
 		{
 			if (cin >> argument)
 				cm.openNode(argument);
 		}
-		else if (command == "7")
+		else if (command == "search")
 		{
 			if (cin >> argument)
 				cm.search(argument);
 		}
-		else if (command == "8")
+		else if (command == "rename")
 		{
 			
 			if (cin >> argument >> argument2)
@@ -105,11 +105,11 @@ int main()
 		}
 		else
 		{
-			cout << "Error: Invalid command. Use 1-9." << endl;
+			cout << "Error: Invalid command." << endl;
 			cleanInput();
 		}
 	}
 
 	return 0;
 }
-//Test commit and push
+

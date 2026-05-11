@@ -65,7 +65,7 @@ void CommandManager::mkdir(string name)
 }
 
 //touch: creates one of the four file types
-void CommandManager::touch(string name, int type)
+void CommandManager::touch(string name, string type)
 {
 	if (name.empty())
 	{
@@ -73,22 +73,22 @@ void CommandManager::touch(string name, int type)
 		return;
 	}
 
-	if (type == 1)
+	if (type == "text")
 	{
 		currentFolder->addNode(new TextFile(name, currentFolder));
 	}
-	else if (type == 2)
+	else if (type == "audio")
 	{
 		currentFolder->addNode(new AudioFile(name, currentFolder));
 	}
-	else if (type == 3)
+	else if (type == "private")
 	{
 		string key;
 		cout << "Enter passkey for new private file: ";
 		cin >> key;
 		currentFolder->addNode(new PrivateFile(name, key, currentFolder));
 	}
-	else if (type == 4)
+	else if (type == "zip")
 	{
 		
 		cout << "Enter name of existing node to zip: ";
