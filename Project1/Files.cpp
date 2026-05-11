@@ -6,6 +6,22 @@ using namespace std;
 //TEXT FILE
 void TextFile::open()
 {
+	ifstream inFile(getDiskPath());
+
+	if (inFile.is_open())
+	{
+		totalLines = 0;
+
+		while (getline(inFile, lines[totalLines]))
+		{
+			totalLines++;
+
+			if (totalLines >= 100)
+				break;
+		}
+
+		inFile.close();
+	}
 	int currentLine = 0;
 	string cmd;
 
@@ -37,7 +53,8 @@ void TextFile::open()
 
 		if (cmd == "6")   // SAVE & EXIT
 		{
-			ofstream outFile(name);
+			///ofstream outFile(name);
+			ofstream outFile(getDiskPath());
 			if (outFile.is_open())
 			{
 				for (int i = 0; i < totalLines; i++)
@@ -131,32 +148,52 @@ void PrivateFile::open()
 		cout << "Access denied! Invalid passkey." << endl;
 }
 
-// AUDIO FILE
+//// AUDIO FILE
+//void AudioFile::open()
+//{
+//	ifstream checkFile(name);
+//	if (!checkFile)
+//	{
+//		cout << "Error: Physical audio file not found on disk." << endl;
+//		cout << "Would you like to record now? (Y/N): ";
+//		char choice;
+//		cin >> choice;
+//		if (choice == 'y' || choice == 'Y')
+//		{
+//			// UPDATE THIS LINE to match your specific microphone name and parameters
+//			string recordCmd = "ffmpeg.exe -f dshow -i audio=\"Internal Microphone (Conexant SmartAudio HD)\" -t 5 -acodec pcm_s16le -ar 44100 \"" + name + "\" -loglevel quiet";
+//
+//			cout << "Recording 5 seconds of audio..." << endl;
+//			system(recordCmd.c_str());
+//			cout << "Recording complete." << endl;
+//		}
+//		return;
+//	}
+//	checkFile.close();
+//
+//	// The playing logic stays the same!
+//	cout << "Playing: " << name << endl;
+//	string playCmd = "start \"\" \"" + name + "\"";
+//	system(playCmd.c_str());
+//}
 void AudioFile::open()
 {
-	ifstream checkFile(name);
-	if (!checkFile)
-	{
-		cout << "Error: Physical audio file not found on disk." << endl;
-		cout << "Would you like to record now? (Y/N): ";
-		char choice;
-		cin >> choice;
-		if (choice == 'y' || choice == 'Y')
-		{
-			// UPDATE THIS LINE to match your specific microphone name and parameters
-			string recordCmd = "ffmpeg.exe -f dshow -i audio=\"Internal Microphone (Conexant SmartAudio HD)\" -t 5 -acodec pcm_s16le -ar 44100 \"" + name + "\" -loglevel quiet";
+	string path = getDiskPath();
 
-			cout << "Recording 5 seconds of audio..." << endl;
-			system(recordCmd.c_str());
-			cout << "Recording complete." << endl;
-		}
+	ifstream checkFile(path);
+
+	if (!checkFile.is_open())
+	{
+		cout << "Error: Audio file not found: " << path << endl;
 		return;
 	}
+
 	checkFile.close();
 
-	// The playing logic stays the same!
-	cout << "Playing: " << name << endl;
-	string playCmd = "start \"\" \"" + name + "\"";
+	cout << "Playing: " << path << endl;
+
+	string playCmd = "start wmplayer \"" + path + "\"";
+
 	system(playCmd.c_str());
 }
 

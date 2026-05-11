@@ -65,10 +65,21 @@ int main()
 			{
 				if (cin >> typeChoice)
 				{
-					if (typeChoice != "text" || typeChoice != "audio" || typeChoice != "private" || typeChoice != "zip")
+					/*if (typeChoice != "text" || typeChoice != "audio" || typeChoice != "private" || typeChoice != "zip")
 						cm.touch(argument, typeChoice);
 					else
-						cout << "Error: Type must be 1-4." << endl;
+						cout << "Error: Type must be 1-4." << endl;*/
+					if (typeChoice == "text" ||
+						typeChoice == "audio" ||
+						typeChoice == "private" ||
+						typeChoice == "zip")
+					{
+						cm.touch(argument, typeChoice);
+					}
+					else
+					{
+						cout << "Error: Invalid type." << endl;
+					}
 				}
 				else
 				{

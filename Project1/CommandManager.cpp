@@ -4,6 +4,7 @@ CommandManager::CommandManager()
 {
 	root = new Folder("root", nullptr);
 	currentFolder = root;//Sets the starting directory to root
+	system("mkdir ROOT_STORAGE");
 }
 
 CommandManager::~CommandManager()
@@ -60,7 +61,17 @@ void CommandManager::mkdir(string name)
 		cout << "Error: Folder name cannot be empty." << endl;
 		return;
 	}
-	currentFolder->addNode(new Folder(name, currentFolder));
+	//ORIGINAL: currentFolder->addNode(new Folder(name, currentFolder));
+	//CHANGE 2
+	Folder* newFolder = new Folder(name, currentFolder);
+
+	currentFolder->addNode(newFolder);
+
+	// Create real folder on disk
+	string cmd = "mkdir \"" + newFolder->getDiskPath() + "\"";
+	system(cmd.c_str());
+
+	cout << "Folder '" << name << "' created." << endl;
 	cout << "Folder '" << name << "' created." << endl;
 }
 
@@ -75,18 +86,35 @@ void CommandManager::touch(string name, string type)
 
 	if (type == "text")
 	{
-		currentFolder->addNode(new TextFile(name, currentFolder));
+		
+		//currentFolder->addNode(new TextFile(name, currentFolder));
+		//CHANGE 3
+		TextFile* tf = new TextFile(name, currentFolder);
+
+		currentFolder->addNode(tf);
+
+		// Create actual file
+		ofstream file(tf->getDiskPath());
+		file.close();
 	}
 	else if (type == "audio")
 	{
-		currentFolder->addNode(new AudioFile(name, currentFolder));
+		//currentFolder->addNode(new AudioFile(name, currentFolder));
+		AudioFile* af = new AudioFile(name, currentFolder);
+		currentFolder->addNode(af);
 	}
 	else if (type == "private")
 	{
 		string key;
 		cout << "Enter passkey for new private file: ";
 		cin >> key;
-		currentFolder->addNode(new PrivateFile(name, key, currentFolder));
+		//currentFolder->addNode(new PrivateFile(name, key, currentFolder));
+		PrivateFile* pf = new PrivateFile(name, key, currentFolder);
+
+		currentFolder->addNode(pf);
+
+		ofstream file(pf->getDiskPath());
+		file.close();
 	}
 	else if (type == "zip")
 	{
@@ -108,9 +136,16 @@ void CommandManager::touch(string name, string type)
 		}
 
 		// The zip node is named "<original>-zip.zip" automatically by ZipFile constructor
-		currentFolder->addNode(new ZipFile(targetName, currentFolder));
+		/*currentFolder->addNode(new ZipFile(targetName, currentFolder));
 		cout << "'" << targetName << "' zipped successfully as '"
-			<< targetName << "-zip.zip'." << endl;
+			<< targetName << "-zip.zip'." << endl;*/
+		//CHANGE
+		ZipFile* zf = new ZipFile(targetName, currentFolder);
+
+		currentFolder->addNode(zf);
+
+		ofstream file(zf->getDiskPath());
+		file.close();
 	}
 	else
 	{
@@ -146,10 +181,22 @@ void CommandManager::rm(string name)
 		}
 	}
 
-	if (currentFolder->removeNode(name))
-		cout << "'" << name << "' deleted successfully." << endl;
+	//if (currentFolder->removeNode(name))
+	//	cout << "'" << name << "' deleted successfully." << endl;
+	//else
+	//	cout << "Error: Could not remove '" << name << "'." << endl;
+	string diskPath = target->getDiskPath();
+
+	if (target->getType() == "Folder")
+	{
+		string cmd = "rmdir /s /q \"" + diskPath + "\"";
+		system(cmd.c_str());
+	}
 	else
-		cout << "Error: Could not remove '" << name << "'." << endl;
+	{
+		remove(diskPath.c_str());
+	}
+	currentFolder->removeNode(name);
 }
 
 // openNode: validation and execution of file-specific logic
@@ -231,8 +278,27 @@ void CommandManager::rename(string targetName, string newName)
 		return;
 	}
 
+	/*target->setName(newName);
+	cout << "'" << targetName << "' renamed to '" << newName << "' successfully." << endl;*/
+	string oldPath = target->getDiskPath();
+
+	string extension = "";
+
+	// Preserve extension
+	if (target->getType() == "Text File")
+		newName += ".txt";
+	else if (target->getType() == "Audio File")
+		newName += ".wav";
+	else if (target->getType() == "Private File")
+		newName += ".priv";
+	else if (target->getType() == "Zip File")
+		newName += ".zip";
+
 	target->setName(newName);
-	cout << "'" << targetName << "' renamed to '" << newName << "' successfully." << endl;
+
+	string newPath = target->getDiskPath();
+
+	rename(oldPath.c_str(), newPath.c_str());
 }
 
 //printUI: displays the command prompt path

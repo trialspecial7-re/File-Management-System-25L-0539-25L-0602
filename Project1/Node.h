@@ -46,4 +46,22 @@ public:
 		}
 		return path;
 	}
+	//CHANGE 1
+	string getDiskPath() const
+	{
+		string path = name;
+		Node* current = parent;
+
+		while (current != nullptr)
+		{
+			// Skip virtual root name
+			if (current->getParent() == nullptr)
+				break;
+
+			path = current->getName() + "\\" + path;
+			current = current->getParent();
+		}
+
+		return "ROOT_STORAGE\\" + path;
+	}
 };
