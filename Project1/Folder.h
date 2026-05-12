@@ -70,7 +70,8 @@ public:
 		if (doesNameExist(newNode->getName()))
 		{
 			cout << "Error: A node with name \"" << newNode->getName() << "\" already exists in this folder!" << endl;
-			delete newNode; //cleans up memory to avoid leaks
+			//delete newNode; //cleans up memory to avoid leaks
+			//newNode = nullptr;
 			return;
 		}
 		if (count == capacity)

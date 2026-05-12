@@ -97,7 +97,7 @@ public:
 class ZipFile : public Node {
 	string zippedNodeName;   
 public:
-	ZipFile(string originalNodeName, Node* p = nullptr): Node(originalNodeName + "-zip.zip", p),zippedNodeName(originalNodeName)
+	ZipFile(string originalNodeName, Node* p = nullptr): Node(originalNodeName + ".zip", p),zippedNodeName(originalNodeName)
 	{
 
 	}
@@ -117,3 +117,4 @@ public:
 		cout << "Error: Zipped files cannot be opened. Unzip first!" << endl;
 	}
 };
+	
