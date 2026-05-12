@@ -35,8 +35,12 @@ public:
 	{
 		cout << "Recording audio for 5 seconds..." << endl;
 
-		// Ensure this command uses the correct mic name and saves as .wav
-		string recordCmd =	"ffmpeg.exe -f dshow -i audio=\"Internal Microphone (Conexant SmartAudio HD)\" " "-t 5 -acodec pcm_s16le -ar 44100 \"" +getDiskPath() +"\" -loglevel quiet";
+		// 1. Define the folder path
+		string folder = "ROOT_STORAGE\\";
+		string recordCmd = folder + "ffmpeg.exe -f dshow -i audio=\"Microphone Array (Realtek(R) Audio)\" -t 5 " + folder + name;
+
+		//Rishayal// string recordCmd =	"ffmpeg.exe -f dshow -i audio=\"Internal Microphone (Conexant SmartAudio HD)\" " "-t 5 -acodec pcm_s16le -ar 44100 \"" +getDiskPath() +"\" -loglevel quiet";
+
 		int result = system(recordCmd.c_str());
 		if (result == 0)
 			cout << "Recording complete! File saved as: " << name << endl;

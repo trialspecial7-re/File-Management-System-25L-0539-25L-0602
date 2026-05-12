@@ -1,7 +1,4 @@
 #pragma once
-#ifndef COMMANDMANAGER_H
-#define COMMANDMANAGER_H
-
 #include "Folder.h"
 #include "Files.h"
 
@@ -23,5 +20,4 @@ public:
 	void printUI();//Prints the current path for the terminal
 };
 
-#endif
 

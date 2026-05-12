@@ -44,7 +44,10 @@ void CommandManager::cd(string name)
 		else if (target->getType() == "Folder")
 		{
 			Folder* f = dynamic_cast<Folder*>(target);
-			if (f) currentFolder = f;
+			if (f)
+			{
+				currentFolder = f;
+			}
 		}
 		else
 		{
