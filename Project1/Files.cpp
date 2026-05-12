@@ -148,34 +148,7 @@ void PrivateFile::open()
 		cout << "Access denied! Invalid passkey." << endl;
 }
 
-//// AUDIO FILE
-//void AudioFile::open()
-//{
-//	ifstream checkFile(name);
-//	if (!checkFile)
-//	{
-//		cout << "Error: Physical audio file not found on disk." << endl;
-//		cout << "Would you like to record now? (Y/N): ";
-//		char choice;
-//		cin >> choice;
-//		if (choice == 'y' || choice == 'Y')
-//		{
-//			// UPDATE THIS LINE to match your specific microphone name and parameters
-//			string recordCmd = "ffmpeg.exe -f dshow -i audio=\"Internal Microphone (Conexant SmartAudio HD)\" -t 5 -acodec pcm_s16le -ar 44100 \"" + name + "\" -loglevel quiet";
-//
-//			cout << "Recording 5 seconds of audio..." << endl;
-//			system(recordCmd.c_str());
-//			cout << "Recording complete." << endl;
-//		}
-//		return;
-//	}
-//	checkFile.close();
-//
-//	// The playing logic stays the same!
-//	cout << "Playing: " << name << endl;
-//	string playCmd = "start \"\" \"" + name + "\"";
-//	system(playCmd.c_str());
-//}
+// AUDIO FILE
 void AudioFile::open()
 {
 	string path = getDiskPath();
@@ -197,4 +170,3 @@ void AudioFile::open()
 	system(playCmd.c_str());
 }
 
-// NOTE: ZipFile::open() is defined inline in Files.h (single-line error message)

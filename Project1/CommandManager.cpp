@@ -1,4 +1,5 @@
 ﻿#include "CommandManager.h"
+#include <cstdio>
 
 CommandManager::CommandManager()
 {
@@ -64,8 +65,7 @@ void CommandManager::mkdir(string name)
 		cout << "Error: Folder name cannot be empty." << endl;
 		return;
 	}
-	//ORIGINAL: currentFolder->addNode(new Folder(name, currentFolder));
-	//CHANGE 2
+	
 	Folder* newFolder = new Folder(name, currentFolder);
 
 	currentFolder->addNode(newFolder);
@@ -74,7 +74,6 @@ void CommandManager::mkdir(string name)
 	string cmd = "mkdir \"" + newFolder->getDiskPath() + "\"";
 	system(cmd.c_str());
 
-	cout << "Folder '" << name << "' created." << endl;
 	cout << "Folder '" << name << "' created." << endl;
 }
 
@@ -138,11 +137,6 @@ void CommandManager::touch(string name, string type)
 			return;
 		}
 
-		// The zip node is named "<original>-zip.zip" automatically by ZipFile constructor
-		/*currentFolder->addNode(new ZipFile(targetName, currentFolder));
-		cout << "'" << targetName << "' zipped successfully as '"
-			<< targetName << "-zip.zip'." << endl;*/
-		//CHANGE
 		ZipFile* zf = new ZipFile(targetName, currentFolder);
 
 		currentFolder->addNode(zf);
@@ -301,7 +295,7 @@ void CommandManager::rename(string targetName, string newName)
 
 	string newPath = target->getDiskPath();
 
-	rename(oldPath.c_str(), newPath.c_str());
+	std::rename(oldPath.c_str(), newPath.c_str());
 }
 
 //printUI: displays the command prompt path
